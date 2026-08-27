@@ -8,10 +8,11 @@ import { firstValueFrom, map, Observable, take } from "rxjs";
 })
 export class ProfileService {
 
-    private baseUrl = 'http://localhost:8080/profile';
+    private baseUrl = 'http://localhost:8080/api/profile';
 
     constructor(private http:HttpClient) {}
 
+    // Add Profiles
     postProfile(profile:Profile):Promise<String> {
 
         const payload = new HttpParams()
@@ -35,13 +36,14 @@ export class ProfileService {
                 const data:Profile[] = v;
                 return data.map(p => {
                     return {
+                        id: p.id,
                         name: p.name,
                         gender: p.gender,
                         role: p.role,
                         school: p.school,
                         classCohort: p.classCohort,
                         cca: p.cca
-                    } as Profile
+                    } as Profile;
                 })
             }))
     }
@@ -54,13 +56,14 @@ export class ProfileService {
                 const data:Profile[] = v;
                 return data.map(p => {
                     return {
+                        id: p.id,
                         name: p.name,
                         gender: p.gender,
                         role: p.role,
                         school: p.school,
                         classCohort: p.classCohort,
                         cca: p.cca
-                    } as Profile
+                    } as Profile;
                 })
             }))
     }

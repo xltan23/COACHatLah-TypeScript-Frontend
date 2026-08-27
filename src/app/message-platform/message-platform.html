@@ -1,0 +1,24 @@
+@if (messages().length > 0) {
+    <table>
+        <thead>
+            <tr>
+            <th>Sender</th>
+            <th>Recipient</th>
+            <th>Content</th>
+            <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (m of messages(); track m.senderId) {
+                <tr>
+                    <td>{{ m.senderId }}</td>
+                    <td>{{ m.recipientId }}</td>
+                    <td>{{ m.content }}</td>
+                    <td>{{ m.timestamp }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} @else {
+    <p>No messages found</p>
+}

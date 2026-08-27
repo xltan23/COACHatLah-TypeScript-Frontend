@@ -13,6 +13,13 @@ export interface PostResponse {
     message: string;
 }
 
+export interface MessageDto {
+    senderId: string;
+    recipientId: string;
+    content: string;
+    timestamp: string;
+}
+
 export enum Role {
     STUDENT = 'STUDENT',
     TEACHER = 'TEACHER',
