@@ -3,7 +3,7 @@ import { MaterialImports } from '../material-imports';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from '../services/profile.service';
 import { Subscription } from 'rxjs';
-import { Profile } from '../models';
+import { ProfileDto } from '../models';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ClassProfiles implements OnInit, OnDestroy {
 
   id!:string;
-  profiles = signal<Profile[]>([]);
+  profiles = signal<ProfileDto[]>([]);
   params$!:Subscription;
 
   constructor(private profileSvc:ProfileService, private activatedRoute:ActivatedRoute) {}

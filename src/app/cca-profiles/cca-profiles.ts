@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Profile } from '../models';
+import { ProfileDto } from '../models';
 
 @Component({
   imports: [],
@@ -13,7 +13,7 @@ import { Profile } from '../models';
 export class CcaProfiles implements OnInit, OnDestroy {
 
   id!:string;
-  profiles = signal<Profile[]>([])
+  profiles = signal<ProfileDto[]>([])
   params$!:Subscription;
 
   constructor(private profileSvc:ProfileService, private activatedRoute:ActivatedRoute) {}

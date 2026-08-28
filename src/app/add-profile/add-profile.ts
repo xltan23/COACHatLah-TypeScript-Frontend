@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MaterialImports } from '../material-imports';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Profile } from '../models';
+import { ProfileDto } from '../models';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class AddProfile implements OnInit {
 
   processProfile() {
     console.log("Submitting profile form...")
-    const profile = this.profileForm.value as Profile
+    const profile = this.profileForm.value as ProfileDto
     this.profileSvc.postProfile(profile)
       .then(result => {
         console.log(result)

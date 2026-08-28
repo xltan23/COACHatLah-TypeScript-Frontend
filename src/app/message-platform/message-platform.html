@@ -9,7 +9,7 @@
             </tr>
         </thead>
         <tbody>
-            @for (m of messages(); track m.senderId) {
+            @for (m of messages(); track m.messageId) {
                 <tr>
                     <td>{{ m.senderId }}</td>
                     <td>{{ m.recipientId }}</td>
@@ -22,3 +22,45 @@
 } @else {
     <p>No messages found</p>
 }
+
+<!-- {{messageResp.llmRephrase}} -->
+<form [formGroup]="messageForm" (ngSubmit)="processMessage()">
+    <table>
+        <tr>
+            <td>Sender</td>
+            <td>
+                <mat-form-field>
+                    <mat-label>Sender</mat-label>
+                    <input matInput type="text" formControlName="senderId">
+                    <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>Recipient</td>
+            <td>
+                <mat-form-field>
+                    <mat-label>Recipient</mat-label>
+                    <input matInput type="text" formControlName="recipientId">
+                    <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>Content</td>
+            <td>
+                <mat-form-field>
+                    <mat-label>Say something</mat-label>
+                    <input matInput type="text" formControlName="content">
+                    <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button matButton="elevated" type="submit" [disabled]="messageForm.invalid">Submit</button>
+            </td>
+        </tr>
+    </table>
+</form>

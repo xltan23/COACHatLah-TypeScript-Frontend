@@ -1,4 +1,4 @@
-export interface Profile {
+export interface ProfileDto {
     id: string;
     name: string;
     gender: string;
@@ -6,19 +6,35 @@ export interface Profile {
     school: string;
     classCohort: string;
     cca: string;
-    status: AccountStatus;
+    // status: AccountStatus;
 }
 
 export interface PostResponse {
-    message: string;
+    postMessage: string;
 }
 
 export interface MessageDto {
+    messageId:string;
     senderId: string;
     recipientId: string;
     content: string;
     timestamp: string;
 }
+
+export interface MessageRequest {
+    senderId: string;
+    recipientId: string;
+    content: string;
+}
+
+export interface MessageResponse {
+    delivered: boolean;
+    message: MessageDto;
+    flagCategory: string | null;
+    llmRephrase: string | null;
+}
+
+
 
 export enum Role {
     STUDENT = 'STUDENT',

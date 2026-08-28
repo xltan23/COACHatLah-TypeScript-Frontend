@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map, Observable, take } from "rxjs";
-import { MessageDto } from "../models";
+import { firstValueFrom, map, Observable, take } from "rxjs";
+import { MessageDto, MessageRequest, MessageResponse } from "../models";
 
 @Injectable({
     providedIn: 'root'
@@ -12,19 +12,16 @@ export class MessageService {
 
     constructor(private http:HttpClient) {}
 
+    // GET conversation history
     getConversationHistory(id1:string, id2:string):Observable<MessageDto[]> {
         const url = `${this.baseUrl}/history?uid1=${id1}&uid2=${id2}`;
-        return this.http.get<MessageDto[]>(url)
-            .pipe(take(1), map(v => {
-                const data:MessageDto[] = v;
-                return data.map(m => {
-                    return {
-                        senderId: m.senderId,
-                        recipientId: m.recipientId,
-                        content: m.content,
-                        timestamp: m.timestamp
-                    } as MessageDto;
-                })
-            }))
+        return this.http.get<MessageDto[]>(url).pipe(take(1));
     }
+
+    // POST message request (Receive response for delivery status)
+    sendMessage(messageReq:MessageRequest):Promise<MessageResponse> {
+        const url = `${this.baseUrl}/send`
+        return firstValueFrom(this.http.post<MessageResponse>(url, messageReq));
+    }
+
 }
