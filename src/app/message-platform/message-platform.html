@@ -23,6 +23,18 @@
     <p>No messages found</p>
 }
 
+@if (messageResp() && !messageResp()!.delivered) {
+    <div>
+        <p>Your message wasn't sent - it was flagged as <strong>{{ messageResp()!.flagCategory }}</strong></p>
+        <p>Suggested rephrase:</p>
+        <p>{{ messageResp()!.llmRephrase }}</p>
+    </div>
+}
+
+@if (messageResp() && messageResp()!.delivered) {
+    <p>Message sent.</p>
+}
+
 <!-- {{messageResp.llmRephrase}} -->
 <form [formGroup]="messageForm" (ngSubmit)="processMessage()">
     <table>
