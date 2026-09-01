@@ -1,0 +1,27 @@
+<h2>Enter your user ID</h2>
+
+@if (loginSvc.isLoggedIn()) {
+    <p>Signed in as <strong>{{ loginSvc.userId() }}</strong></p>
+    <button matButton="elevated" (click)="switch()">Switch user</button>
+} @else {
+    <form [formGroup]="loginForm" (ngSubmit)="enter()">
+        <table>
+            <tr>
+                <td></td>
+                <td>
+                    <mat-form-field>
+                        <mat-label>Your User ID</mat-label>
+                        <input matInput type="text" formControlName="id">
+                        <mat-icon matSuffix>person</mat-icon>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button matButton="elevated" type="submit" [disabled]="loginForm.invalid">LOGIN</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+}

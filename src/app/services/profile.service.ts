@@ -14,8 +14,14 @@ export class ProfileService {
 
     // POST new profiles
     postProfile(profileDto:ProfileDto):Promise<PostResponse> {
-        const url = `${this.baseUrl}/add`
+        const url = `${this.baseUrl}/add`;
         return firstValueFrom(this.http.post<PostResponse>(url, profileDto));
+    }
+
+    // GET specific profile
+    getSpecificProfile(id:string):Observable<ProfileDto> {
+        const url = `${this.baseUrl}/${id}`;
+        return this.http.get<ProfileDto>(url).pipe(take(1));
     }
 
     // GET class profiles

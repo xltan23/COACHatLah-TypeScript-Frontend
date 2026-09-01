@@ -1,39 +1,33 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { ProfileDto } from '../models';
+import { LoginService } from '../services/login.service';
+import { MaterialImports } from '../material-imports';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [],
+  imports: [MaterialImports, CommonModule, RouterLink],
   selector: 'app-cca-profiles',
   styleUrl: './cca-profiles.css',
   templateUrl: './cca-profiles.html',
 })
-export class CcaProfiles implements OnInit, OnDestroy {
+export class CcaProfiles implements OnInit {
 
   id!:string;
   profiles = signal<ProfileDto[]>([])
-  params$!:Subscription;
 
-  constructor(private profileSvc:ProfileService, private activatedRoute:ActivatedRoute) {}
+  constructor(
+    private loginSvc:LoginService,
+    private profileSvc:ProfileService) {}
 
   ngOnInit(): void {
     console.log("Initialising CCA Profiles component...")
-    this.params$ = this.activatedRoute.params.subscribe(
-      (params) => {
-        this.id = params["id"];
-        console.log("Submitting request for profiles in the CCA of ", this.id)
-        this.profileSvc.getCCAProfiles(this.id)
-          .subscribe(result => {
-            console.log("Profiles received:", result)
-            this.profiles.set(result);
-          })
-      }
-    )
-  }
-
-  ngOnDestroy(): void {
-    this.params$.unsubscribe();
+    this.id = this.loginSvc.userId()!
+    this.profileSvc.getCCAProfiles(this.id)
+      .subscribe(result => {
+        console.log("Profiles received:", result)
+        this.profiles.set(result);
+      })
   }
 }

@@ -1,41 +1,34 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { MaterialImports } from '../material-imports';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from '../services/profile.service';
-import { Subscription } from 'rxjs';
 import { ProfileDto } from '../models';
-import { ActivatedRoute } from '@angular/router';
+import { LoginService } from '../services/login.service';
+import { RouterLink } from "@angular/router";
 
 @Component({
-  imports: [MaterialImports, CommonModule],
+  imports: [MaterialImports, CommonModule, RouterLink],
   selector: 'app-class-profiles',
   styleUrl: './class-profiles.css',
   templateUrl: './class-profiles.html',
 })
-export class ClassProfiles implements OnInit, OnDestroy {
+export class ClassProfiles implements OnInit {
 
   id!:string;
   profiles = signal<ProfileDto[]>([]);
-  params$!:Subscription;
 
-  constructor(private profileSvc:ProfileService, private activatedRoute:ActivatedRoute) {}
+  constructor(
+    private loginSvc:LoginService,
+    private profileSvc:ProfileService
+  ) {}
 
   ngOnInit(): void {
     console.log("Initialising Class Profiles component...")
-    this.params$ = this.activatedRoute.params.subscribe(
-      (params) => {
-        this.id = params["id"];
-        console.log("Submitting request for profiles in the class of ", this.id)
-        this.profileSvc.getClassProfiles(this.id)
-          .subscribe(result => {
-            console.log("Profiles received:", result)
-            this.profiles.set(result);
-          })
-      }
-    )
-  }
-
-  ngOnDestroy(): void {
-    this.params$.unsubscribe();
+    this.id = this.loginSvc.userId()!
+    this.profileSvc.getClassProfiles(this.id)
+      .subscribe(result => {
+        console.log("Profiles received:", result)
+        this.profiles.set(result);
+      })
   }
 }

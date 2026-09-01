@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             @for (p of profiles(); track p.id) {
-                <tr>
+                <tr [routerLink]="['/chat', p.id]">
                     <td>{{ p.id }}</td>
                     <td>{{ p.name }}</td>
                     <td>{{ p.gender }}</td>

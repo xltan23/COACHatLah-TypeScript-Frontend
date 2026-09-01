@@ -3,6 +3,7 @@ import { MaterialImports } from '../material-imports';
 import { CommonModule } from '@angular/common';
 import { MessageService } from '../services/message.service';
 import { ChatSocketService } from '../services/chat-socket.service';
+import { LoginService } from '../services/login.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MessageDto, MessageResponse } from '../models';
@@ -16,8 +17,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 })
 export class MessagePlatform implements OnInit, OnDestroy {
 
-  uid1!: string; // local user ("me")
-  uid2!: string; // conversation peer
+  me!: string;      // current user (from LoginService)
+  peerId!: string;  // conversation partner (from route)
   messages = signal<MessageDto[]>([]);
   messageForm!: FormGroup;
   messageResp = signal<MessageResponse | null>(null);
@@ -26,43 +27,40 @@ export class MessagePlatform implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
+    private loginSvc: LoginService,
     private messageSvc: MessageService,
     private chatSocket: ChatSocketService,
     private activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
+    this.me = this.loginSvc.userId()!; // guaranteed non-null by authGuard
     this.messageForm = this.createMessage();
 
     this.subs.add(this.activatedRoute.params.subscribe(params => {
-      this.uid1 = params['uid1'];
-      this.uid2 = params['uid2'];
-      this.messageForm.patchValue({ senderId: this.uid1, recipientId: this.uid2 });
+      this.peerId = params['peerId'];
+      this.messageForm.patchValue({ senderId: this.me, recipientId: this.peerId });
 
-      // Load history (REST + Redis)
-      this.messageSvc.getConversationHistory(this.uid1, this.uid2)
+      this.messageSvc.getConversationHistory(this.me, this.peerId)
         .subscribe(result => this.messages.set(result));
-
-      // Open the live socket as this user
-      this.chatSocket.connect(this.uid1);
     }));
 
-    // Delivered messages (sent or received) - append if in the open conversation
+    this.chatSocket.connect(this.me);
+
     this.subs.add(this.chatSocket.incoming$.subscribe(resp => {
       const m = resp.message;
       if (!m) return;
       const inThisConversation =
-        (m.senderId === this.uid1 && m.recipientId === this.uid2) ||
-        (m.senderId === this.uid2 && m.recipientId === this.uid1);
+        (m.senderId === this.me && m.recipientId === this.peerId) ||
+        (m.senderId === this.peerId && m.recipientId === this.me);
       if (inThisConversation) {
         this.messages.update(list => [...list, m]);
       }
-      if (m.senderId === this.uid1) {
+      if (m.senderId === this.me) {
         this.messageResp.set(resp);
       }
     }));
 
-    // This user's own flagged messages
     this.subs.add(this.chatSocket.moderation$.subscribe(resp => this.messageResp.set(resp)));
   }
 
@@ -76,7 +74,7 @@ export class MessagePlatform implements OnInit, OnDestroy {
 
   processMessage(): void {
     const content = this.messageForm.value.content as string;
-    this.chatSocket.send(this.uid2, content);
+    this.chatSocket.send(this.peerId, content);
     this.messageForm.patchValue({ content: '' });
   }
 
