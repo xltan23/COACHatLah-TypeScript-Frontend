@@ -1,3 +1,7 @@
+@if (peerProfile()) {
+    <h1>Chatting with {{ peerProfile()!.name }}</h1>
+}
+
 @if (messages().length > 0) {
     <table>
         <thead>

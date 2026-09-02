@@ -6,8 +6,9 @@ import { ChatSocketService } from '../services/chat-socket.service';
 import { LoginService } from '../services/login.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MessageDto, MessageResponse } from '../models';
+import { MessageDto, MessageResponse, ProfileDto } from '../models';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   imports: [MaterialImports, CommonModule, FormsModule, ReactiveFormsModule],
@@ -19,6 +20,7 @@ export class MessagePlatform implements OnInit, OnDestroy {
 
   me!: string;      // current user (from LoginService)
   peerId!: string;  // conversation partner (from route)
+  peerProfile = signal<ProfileDto | null>(null);
   messages = signal<MessageDto[]>([]);
   messageForm!: FormGroup;
   messageResp = signal<MessageResponse | null>(null);
@@ -28,6 +30,7 @@ export class MessagePlatform implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private loginSvc: LoginService,
+    private profileSvc: ProfileService,
     private messageSvc: MessageService,
     private chatSocket: ChatSocketService,
     private activatedRoute: ActivatedRoute,
@@ -40,6 +43,9 @@ export class MessagePlatform implements OnInit, OnDestroy {
     this.subs.add(this.activatedRoute.params.subscribe(params => {
       this.peerId = params['peerId'];
       this.messageForm.patchValue({ senderId: this.me, recipientId: this.peerId });
+      
+      this.profileSvc.getSpecificProfile(this.peerId)
+        .subscribe(p => this.peerProfile.set(p))
 
       this.messageSvc.getConversationHistory(this.me, this.peerId)
         .subscribe(result => this.messages.set(result));

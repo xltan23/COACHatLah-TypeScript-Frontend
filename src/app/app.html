@@ -1,3 +1,4 @@
-Main Page elements
-
+@if (loginSvc.isLoggedIn()) {
+    <span>{{ loginSvc.userName() ?? loginSvc.userId }}</span>
+}
 <router-outlet></router-outlet>
