@@ -1,83 +1,65 @@
-<form [formGroup]="profileForm" (ngSubmit)="processProfile()">
-    <table>
-        <tr>
-            <td>Name</td>
-            <td>
-                <mat-form-field>
-                    <mat-label>Enter profile to add</mat-label>
-                    <input matInput type="text" formControlName="name">
-                    <mat-icon matSuffix>person</mat-icon>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>Gender</td>
-            <td>
-                <mat-radio-group formControlName="gender" aria-label="Select gender">
-                    <mat-radio-button value="male">Male</mat-radio-button>
-                    <mat-radio-button value="female">Female</mat-radio-button>
-                </mat-radio-group>
-            </td>
-        </tr>
-        <tr>
-            <td>Role</td>
-            <td>
-                <mat-form-field>
-                    <mat-label>Select a Role</mat-label>
-                    <mat-select formControlName="role">
-                        <mat-option value="STUDENT">Student</mat-option>
-                        <mat-option value="TEACHER">Teacher</mat-option>
-                        <mat-option value="COUNSELLOR">Counsellor</mat-option>
-                        <mat-option value="DISCIPLINARY_COMMITTEE">Disciplinary Committee</mat-option>
-                        <mat-option value="ADMIN">Admin</mat-option>
-                    </mat-select>
-                    <mat-icon matSuffix>person</mat-icon>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>School</td>
-            <td>
-                <mat-form-field>
-                    <mat-label>Select a School</mat-label>
-                    <mat-select formControlName="school">
-                        <mat-option value="BPGHS">Bukit Panjang Government High School</mat-option>
-                        <mat-option value="NHHS">Nan Hua High School</mat-option>
-                        <mat-option value="RVHS">River Valley High School</mat-option>
-                        <mat-option value="HCI">Hwa Chong Institution</mat-option>
-                        <mat-option value="RI">Raffles Institution</mat-option>
-                    </mat-select>
-                    <mat-icon matSuffix>person</mat-icon>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>Class Cohort</td>
-            <td>
-                <mat-form-field>
-                    <mat-label>Enter class/cohort</mat-label>
-                    <input matInput type="text" formControlName="classCohort">
-                    <mat-icon matSuffix>person</mat-icon>  
-                    <mat-hint>Eg. Class 6H, Year 2010. Input: 6H/10</mat-hint>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>Co-Curricular Activities</td>
-            <td>
-                <mat-form-field>
-                    <mat-label>Enter CCA</mat-label>
-                    <input matInput type="text" formControlName="cca">
-                    <mat-icon matSuffix>person</mat-icon>  
-                    <mat-hint>CCA naming convention is school-dependent</mat-hint>
-                </mat-form-field>   
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <button matButton="elevated" type="submit" [disabled]="profileForm.invalid">Submit</button>
-            </td>
-        </tr>
-    </table>
-</form>
+<section class="page">
+    <h1 class="page-title">Add a profile</h1>
+    <p class="page-subtitle">Create a new student or staff account</p>
+
+    <form class="panel profile-form" [formGroup]="profileForm" (ngSubmit)="processProfile()">
+        <mat-form-field appearance="outline" class="span-2">
+            <mat-label>Full name</mat-label>
+            <input matInput type="text" formControlName="name">
+            <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+        <div class="span-2 radio-row">
+            <span class="field-label">Gender</span>
+            <mat-radio-group formControlName="gender" aria-label="Select gender">
+                <mat-radio-button value="male">Male</mat-radio-button>
+                <mat-radio-button value="female">Female</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Role</mat-label>
+            <mat-select formControlName="role">
+                <mat-option value="STUDENT">Student</mat-option>
+                <mat-option value="TEACHER">Teacher</mat-option>
+                <mat-option value="COUNSELLOR">Counsellor</mat-option>
+                <mat-option value="DISCIPLINARY_COMMITTEE">Disciplinary Committee</mat-option>
+                <mat-option value="ADMIN">Admin</mat-option>
+            </mat-select>
+            <mat-icon matSuffix>badge</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>School</mat-label>
+            <mat-select formControlName="school">
+                <mat-option value="BPGHS">Bukit Panjang Government High School</mat-option>
+                <mat-option value="NHHS">Nan Hua High School</mat-option>
+                <mat-option value="RVHS">River Valley High School</mat-option>
+                <mat-option value="HCI">Hwa Chong Institution</mat-option>
+                <mat-option value="RI">Raffles Institution</mat-option>
+            </mat-select>
+            <mat-icon matSuffix>apartment</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Class / cohort</mat-label>
+            <input matInput type="text" formControlName="classCohort">
+            <mat-icon matSuffix>school</mat-icon>
+            <mat-hint>Eg. Class 6H, Year 2010. Input: 6H/10</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>CCA</mat-label>
+            <input matInput type="text" formControlName="cca">
+            <mat-icon matSuffix>sports_soccer</mat-icon>
+            <mat-hint>CCA naming convention is school-dependent</mat-hint>
+        </mat-form-field>
+
+        <div class="span-2 actions">
+            <button class="pill-btn" matButton="filled" type="submit" [disabled]="profileForm.invalid">
+                <mat-icon>person_add</mat-icon>
+                Create profile
+            </button>
+        </div>
+    </form>
+</section>

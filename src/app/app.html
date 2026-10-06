@@ -1,4 +1,48 @@
-@if (loginSvc.isLoggedIn()) {
-    <span>{{ loginSvc.userName() ?? loginSvc.userId }}</span>
-}
-<router-outlet></router-outlet>
+<mat-toolbar class="topbar">
+    @if (loginSvc.isLoggedIn()) {
+        <button matIconButton type="button" (click)="drawer.toggle()" aria-label="Open or close menu">
+            <mat-icon>menu</mat-icon>
+        </button>
+    }
+    <a class="logo" routerLink="/class">
+        <mat-icon>local_florist</mat-icon>
+        <span>COACHat<span class="logo-lah">Lah</span></span>
+    </a>
+
+    <span class="spacer"></span>
+
+    @if (loginSvc.isLoggedIn()) {
+        <span class="user-name">
+            <mat-icon>account_circle</mat-icon>
+            {{ loginSvc.userName() ?? loginSvc.userId() }}
+        </span>
+        <button class="logout-btn" matButton="outlined" type="button" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span class="logout-label">Log out</span>
+        </button>
+    }
+</mat-toolbar>
+<div class="skyline" aria-hidden="true"></div>
+
+<mat-sidenav-container class="shell">
+    <mat-sidenav #drawer class="drawer"
+        [mode]="isPhone() ? 'over' : 'side'"
+        [opened]="loginSvc.isLoggedIn() && !isPhone()">
+        <nav class="nav">
+            <a class="nav-item" routerLink="/class" routerLinkActive="active"
+               (click)="isPhone() && drawer.close()">
+                <mat-icon>school</mat-icon>
+                <span>My class</span>
+            </a>
+            <a class="nav-item" routerLink="/cca" routerLinkActive="active"
+               (click)="isPhone() && drawer.close()">
+                <mat-icon>sports_soccer</mat-icon>
+                <span>My CCA</span>
+            </a>
+        </nav>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

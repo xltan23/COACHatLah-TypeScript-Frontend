@@ -1,1 +1,148 @@
-/* You can add global styles to this file, and also import other style files */
+/* COACHatLah theme - "Orchid shophouse": orchid pink and lilac with pastel sky-blue accents */
+:root {
+  --cl-primary: #a8467f;
+  --cl-primary-dark: #7e2f63;
+  --cl-primary-soft: #fbe6f2;
+  --cl-top-bg: #fce6f0;
+  --cl-top-text: #7e2f63;
+  --cl-drawer-bg: #fdf2f8;
+  --cl-drawer-active: #ebc8e3;
+  --cl-drawer-text: #6a2653;
+  --cl-bubble-mine: #ebc8e3;
+  --cl-bubble-mine-text: #4e1840;
+  --cl-ink: #461a3b;
+  --cl-muted: #946983;
+  --cl-line: #f1d6e8;
+  --cl-bg: #fffafc;
+  --cl-card: #ffffff;
+  --cl-accent: #9dcbe8;
+  --cl-accent-dark: #2f6e98;
+  --cl-accent-ink: #1d4e6e;
+  --cl-accent-soft: #eaf4fb;
+  --cl-radius: 12px;
+}
+
+body {
+  background-color: var(--cl-bg);
+  color: var(--cl-ink);
+}
+
+/* ---------- Shared page header ---------- */
+.page {
+  padding: 20px 24px;
+  max-width: 960px;
+}
+
+.page-title {
+  margin: 0 0 2px;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--cl-ink);
+}
+
+.page-subtitle {
+  margin: 0 0 18px;
+  color: var(--cl-muted);
+}
+
+/* ---------- Profile cards (class + CCA pages) ---------- */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--cl-card);
+  border: 1px solid var(--cl-line);
+  border-radius: var(--cl-radius);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 120ms, transform 120ms;
+}
+
+.profile-card:hover,
+.profile-card:focus-visible {
+  border-color: var(--cl-primary);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.profile-name {
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cl-accent-soft);
+  color: var(--cl-accent-ink);
+  font-weight: 500;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+
+.chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--cl-primary-soft);
+  color: var(--cl-primary-dark);
+}
+
+.chip.staff {
+  background: var(--cl-accent-soft);
+  color: var(--cl-accent-ink);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--cl-muted);
+}
+
+.empty-state mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: var(--cl-line);
+}
+
+/* ---------- Centred card (login + add profile) ---------- */
+.center-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.panel {
+  background: var(--cl-card);
+  border: 1px solid var(--cl-line);
+  border-radius: var(--cl-radius);
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pill-btn.mat-mdc-button-base {
+  border-radius: 999px;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 16px;
+  }
+}

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MaterialImports } from '../material-imports';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  imports: [MaterialImports, FormsModule, ReactiveFormsModule],
+  imports: [MaterialImports, FormsModule, ReactiveFormsModule, RouterLink],
   selector: 'app-login',
   styleUrl: './login.css',
   templateUrl: './login.html',

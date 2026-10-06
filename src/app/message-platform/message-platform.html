@@ -1,82 +1,49 @@
-@if (peerProfile()) {
-    <h1>Chatting with {{ peerProfile()!.name }}</h1>
-}
+<header class="chat-header">
+    <div class="avatar small">{{ peerProfile()?.name?.charAt(0) }}</div>
+    <h1 class="chat-title">{{ peerProfile()?.name }}</h1>
+</header>
 
-@if (messages().length > 0) {
-    <table>
-        <thead>
-            <tr>
-            <th>Sender</th>
-            <th>Recipient</th>
-            <th>Content</th>
-            <th>Timestamp</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (m of messages(); track m.messageId) {
-                <tr>
-                    <td>{{ m.senderId }}</td>
-                    <td>{{ m.recipientId }}</td>
-                    <td>{{ m.content }}</td>
-                    <td>{{ m.timestamp }}</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-} @else {
-    <p>No messages found</p>
-}
+<div class="messages" #scroller>
+    @for (m of messages(); track m.messageId; let i = $index) {
+        @if (i === 0 || (m.timestamp | date:'yyyyMMdd') !== (messages()[i - 1].timestamp | date:'yyyyMMdd')) {
+            <div class="day-divider">{{ m.timestamp | date:'EEE, d MMM' }}</div>
+        }
+        <div class="bubble" [class.mine]="m.senderId === me">
+            <div class="sender">{{ m.senderId === me ? 'You' : peerProfile()?.name }}</div>
+            <div class="content">{{ m.content }}</div>
+            <div class="time">{{ m.timestamp | date:'h:mm a' }}</div>
+        </div>
+    } @empty {
+        <div class="empty-chat">
+            <mat-icon>waving_hand</mat-icon>
+            <p>Say hi to {{ peerProfile()?.name }}!</p>
+        </div>
+    }
+</div>
 
 @if (messageResp() && !messageResp()!.delivered) {
-    <div>
-        <p>Your message wasn't sent - it was flagged as <strong>{{ messageResp()!.flagCategory }}</strong></p>
-        <p>Suggested rephrase:</p>
-        <p>{{ messageResp()!.llmRephrase }}</p>
+    <div class="rephrase-box" role="status">
+        <div class="rephrase-title">
+            <mat-icon>favorite_border</mat-icon>
+            Aiyo, that message wasn't sent
+        </div>
+        @if (messageResp()!.llmRephrase) {
+            <p class="rephrase-hint">Can hurt someone's feelings leh. Try this instead?</p>
+            <p class="rephrase-text">"{{ messageResp()!.llmRephrase }}"</p>
+            <button class="use-btn" matButton="filled" type="button" (click)="useRephrase()">
+                <mat-icon>auto_fix_high</mat-icon>
+                Use this
+            </button>
+        } @else {
+            <p class="rephrase-hint">Can hurt someone's feelings leh. Try saying it in a kinder way?</p>
+        }
     </div>
 }
 
-@if (messageResp() && messageResp()!.delivered) {
-    <p>Message sent.</p>
-}
-
-<!-- {{messageResp.llmRephrase}} -->
-<form [formGroup]="messageForm" (ngSubmit)="processMessage()">
-    <table>
-        <tr>
-            <td>Sender</td>
-            <td>
-                <mat-form-field>
-                    <mat-label>Sender</mat-label>
-                    <input matInput type="text" formControlName="senderId">
-                    <mat-icon matSuffix>person</mat-icon>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>Recipient</td>
-            <td>
-                <mat-form-field>
-                    <mat-label>Recipient</mat-label>
-                    <input matInput type="text" formControlName="recipientId">
-                    <mat-icon matSuffix>person</mat-icon>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>Content</td>
-            <td>
-                <mat-form-field>
-                    <mat-label>Say something</mat-label>
-                    <input matInput type="text" formControlName="content">
-                    <mat-icon matSuffix>person</mat-icon>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <button matButton="elevated" type="submit" [disabled]="messageForm.invalid">Submit</button>
-            </td>
-        </tr>
-    </table>
+<form class="composer" [formGroup]="messageForm" (ngSubmit)="processMessage()">
+    <input class="composer-input" type="text" formControlName="content"
+           placeholder="Type a message…" autocomplete="off" aria-label="Message">
+    <button class="send-btn" matIconButton type="submit" [disabled]="messageForm.invalid" aria-label="Send">
+        <mat-icon>arrow_upward</mat-icon>
+    </button>
 </form>

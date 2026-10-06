@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="16" viewBox="0 0 200 16">
+  <rect width="200" height="16" fill="#fdf2f8"/>
+  <g fill="#f4c2d7">
+    <rect x="0" y="5" width="30" height="11"/>
+    <path d="M30 16V7l10-5 10 5v9z"/>
+    <rect x="136" y="4" width="28" height="12"/>
+  </g>
+  <g fill="#bfe3d6">
+    <rect x="50" y="3" width="26" height="13"/>
+    <path d="M76 16V6l9-4 9 4v10z"/>
+    <rect x="164" y="6" width="36" height="10"/>
+  </g>
+  <g fill="#f9e0a8">
+    <rect x="94" y="5" width="22" height="11"/>
+    <path d="M116 16V7l10-5 10 5v9z"/>
+  </g>
+  <g fill="#ffffff" opacity="0.7">
+    <rect x="6" y="9" width="3" height="4"/><rect x="18" y="9" width="3" height="4"/>
+    <rect x="56" y="7" width="3" height="4"/><rect x="66" y="7" width="3" height="4"/>
+    <rect x="100" y="9" width="3" height="4"/><rect x="108" y="9" width="3" height="4"/>
+    <rect x="142" y="8" width="3" height="4"/><rect x="154" y="8" width="3" height="4"/>
+    <rect x="172" y="9" width="3" height="4"/><rect x="186" y="9" width="3" height="4"/>
+  </g>
+</svg>

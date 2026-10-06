@@ -1,27 +1,23 @@
-<h2>Enter your user ID</h2>
+<div class="center-wrap">
+    <div class="panel login-card">
+        <div class="avatar big"><mat-icon>waving_hand</mat-icon></div>
 
-@if (loginSvc.isLoggedIn()) {
-    <p>Signed in as <strong>{{ loginSvc.userId() }}</strong></p>
-    <button matButton="elevated" (click)="switch()">Switch user</button>
-} @else {
-    <form [formGroup]="loginForm" (ngSubmit)="enter()">
-        <table>
-            <tr>
-                <td></td>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Your User ID</mat-label>
-                        <input matInput type="text" formControlName="id">
-                        <mat-icon matSuffix>person</mat-icon>
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <button matButton="elevated" type="submit" [disabled]="loginForm.invalid">LOGIN</button>
-                </td>
-            </tr>
-        </table>
-    </form>
-}
+        @if (loginSvc.isLoggedIn()) {
+            <h1 class="login-title">Welcome back!</h1>
+            <p class="login-sub">You're signed in as <strong>{{ loginSvc.userName() ?? loginSvc.userId() }}</strong></p>
+            <a class="pill-btn full" matButton="filled" routerLink="/class">Go to my class</a>
+            <button class="pill-btn full" matButton type="button" (click)="switch()">Switch user</button>
+        } @else {
+            <h1 class="login-title">Hi there!</h1>
+            <p class="login-sub">Enter your student ID to start</p>
+            <form [formGroup]="loginForm" (ngSubmit)="enter()">
+                <mat-form-field appearance="outline" class="full">
+                    <mat-label>Your user ID</mat-label>
+                    <input matInput type="text" formControlName="id" autocomplete="off">
+                    <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+                <button class="pill-btn full" matButton="filled" type="submit" [disabled]="loginForm.invalid">Let's go</button>
+            </form>
+        }
+    </div>
+</div>

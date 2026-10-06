@@ -10,11 +10,19 @@ html {
   @include mat.theme(
     (
       color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+        primary: mat.$magenta-palette,
+        tertiary: mat.$azure-palette,
       ),
       typography: Roboto,
       density: 0,
+    )
+  );
+
+  // Nudge Material's primary colour to the app's orchid pink (see --cl-primary in styles.css)
+  @include mat.theme-overrides(
+    (
+      primary: #a8467f,
+      on-primary: #ffffff,
     )
   );
 }

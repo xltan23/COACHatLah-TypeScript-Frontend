@@ -1,0 +1,104 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.topbar {
+  --mat-toolbar-container-background-color: var(--cl-top-bg);
+  --mat-toolbar-container-text-color: var(--cl-top-text);
+  --mat-toolbar-standard-height: 60px;
+  --mat-toolbar-mobile-height: 56px;
+  gap: 8px;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.topbar .mat-mdc-icon-button {
+  color: var(--cl-top-text);
+}
+
+/* Pastel shophouse row under the top bar */
+.skyline {
+  height: 16px;
+  flex-shrink: 0;
+  background: var(--cl-drawer-bg) url('/skyline.svg') repeat-x left bottom;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cl-top-text);
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.logo-lah {
+  color: var(--cl-primary);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.logout-btn {
+  --mat-button-outlined-label-text-color: var(--cl-top-text);
+  --mat-button-outlined-outline-color: var(--cl-line);
+  background: var(--cl-card);
+  border-radius: 999px;
+}
+
+.shell {
+  flex: 1;
+  --mat-sidenav-content-background-color: var(--cl-bg);
+  --mat-sidenav-container-background-color: var(--cl-drawer-bg);
+  --mat-sidenav-container-width: 200px;
+  --mat-sidenav-container-shape: 0;
+  --mat-sidenav-container-divider-color: var(--cl-line);
+}
+
+.nav {
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--cl-radius);
+  color: var(--cl-drawer-text);
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.nav-item:hover {
+  background: rgba(168, 70, 127, 0.08);
+}
+
+.nav-item.active {
+  background: var(--cl-drawer-active);
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .logo { font-size: 18px; }
+  .user-name mat-icon,
+  .logout-label { display: none; }
+  .logout-btn { min-width: 0; padding: 0 12px; }
+  .logout-btn mat-icon { margin: 0; }
+}

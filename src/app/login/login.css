@@ -1,0 +1,38 @@
+.login-card {
+  max-width: 360px;
+  margin-top: 6vh;
+  text-align: center;
+}
+
+.avatar.big {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+}
+
+.avatar.big mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.login-title {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.login-sub {
+  margin: 0 0 20px;
+  color: var(--cl-muted);
+}
+
+.full {
+  width: 100%;
+}
+
+.pill-btn.full {
+  height: 44px;
+  font-size: 15px;
+  margin-bottom: 8px;
+}

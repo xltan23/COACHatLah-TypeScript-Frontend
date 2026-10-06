@@ -1,32 +1,26 @@
+<section class="page">
+    <h1 class="page-title">
+        My class
+        @if (profiles().length > 0) { · {{ profiles()[0].classCohort }} }
+    </h1>
+    <p class="page-subtitle">Tap a classmate to start chatting</p>
 
-
-@if (profiles().length > 0) {
-    <table>
-        <thead>
-            <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Role</th>
-            <th>School</th>
-            <th>Class Cohort</th>
-            <th>CCA</th>
-            </tr>
-        </thead>
-        <tbody>
+    @if (profiles().length > 0) {
+        <div class="profile-grid">
             @for (p of profiles(); track p.id) {
-                <tr [routerLink]="['/chat', p.id]">
-                    <td>{{ p.id }}</td>
-                    <td>{{ p.name }}</td>
-                    <td>{{ p.gender }}</td>
-                    <td>{{ p.role }}</td>
-                    <td>{{ p.school }}</td>
-                    <td>{{ p.classCohort }}</td>
-                    <td>{{ p.cca }}</td>
-                </tr>
+                <a class="profile-card" [routerLink]="['/chat', p.id]">
+                    <div class="avatar">{{ p.name.charAt(0) }}</div>
+                    <div>
+                        <div class="profile-name">{{ p.name }}</div>
+                        <span class="chip" [class.staff]="p.role !== 'STUDENT'">{{ p.role.replace('_', ' ') | titlecase }}</span>
+                    </div>
+                </a>
             }
-        </tbody>
-    </table>
-} @else {
-    <p>No profiles found</p>
-}
+        </div>
+    } @else {
+        <div class="empty-state">
+            <mat-icon>groups</mat-icon>
+            <p>No classmates to show yet</p>
+        </div>
+    }
+</section>

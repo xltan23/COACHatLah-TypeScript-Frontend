@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, afterRenderEffect, signal, viewChild } from '@angular/core';
 import { MaterialImports } from '../material-imports';
 import { CommonModule } from '@angular/common';
 import { MessageService } from '../services/message.service';
@@ -26,6 +26,7 @@ export class MessagePlatform implements OnInit, OnDestroy {
   messageResp = signal<MessageResponse | null>(null);
 
   private subs = new Subscription();
+  private scroller = viewChild<ElementRef<HTMLElement>>('scroller');
 
   constructor(
     private fb: FormBuilder,
@@ -34,7 +35,15 @@ export class MessagePlatform implements OnInit, OnDestroy {
     private messageSvc: MessageService,
     private chatSocket: ChatSocketService,
     private activatedRoute: ActivatedRoute,
-  ) {}
+  ) {
+    // Keep the newest message in view whenever the list or the rephrase box changes
+    afterRenderEffect(() => {
+      this.messages();
+      this.messageResp();
+      const el = this.scroller()?.nativeElement;
+      if (el) el.scrollTop = el.scrollHeight;
+    });
+  }
 
   ngOnInit(): void {
     this.me = this.loginSvc.userId()!; // guaranteed non-null by authGuard
@@ -82,6 +91,13 @@ export class MessagePlatform implements OnInit, OnDestroy {
     const content = this.messageForm.value.content as string;
     this.chatSocket.send(this.peerId, content);
     this.messageForm.patchValue({ content: '' });
+  }
+
+  // Loads the AI rephrase suggestion into the box for further editing - does not send it.
+  useRephrase(): void {
+    const suggestion = this.messageResp()?.llmRephrase;
+    if (!suggestion) return;
+    this.messageForm.patchValue({ content: suggestion });
   }
 
   ngOnDestroy(): void {
