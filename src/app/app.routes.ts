@@ -5,7 +5,10 @@ import { CcaProfiles } from './cca-profiles/cca-profiles';
 import { MessagePlatform } from './message-platform/message-platform';
 
 import { authGuard } from './guards/auth.guard';
+import { reviewerGuard } from './guards/reviewer.guard';
 import { Login } from './login/login';
+import { Escalation } from './escalation/escalation';
+import { Review } from './review/review';
 
 export const routes: Routes = [
     {path:'', redirectTo:'login', pathMatch:'full'},
@@ -14,4 +17,6 @@ export const routes: Routes = [
     {path:'class', component:ClassProfiles, canActivate:[authGuard]},
     {path:'cca', component:CcaProfiles, canActivate:[authGuard]},
     {path:'chat/:peerId', component:MessagePlatform, canActivate:[authGuard]},
+    {path:'escalation', component:Escalation, canActivate:[authGuard, reviewerGuard]},
+    {path:'review/:id', component:Review, canActivate:[authGuard, reviewerGuard]}
 ];

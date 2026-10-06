@@ -79,6 +79,12 @@ body {
   margin-bottom: 4px;
 }
 
+.avatar mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
 .avatar {
   width: 42px;
   height: 42px;
@@ -119,6 +125,40 @@ body {
   width: 40px;
   height: 40px;
   color: var(--cl-line);
+}
+
+/* ---------- Escalations + review ---------- */
+.muted {
+  color: var(--cl-muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.status-chip {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--cl-primary-soft);
+  color: var(--cl-primary-dark);
+  white-space: nowrap;
+}
+
+.status-chip[data-status='UNDER_REVIEW'] {
+  background: #fff4de;
+  color: #6b4508;
+}
+
+.status-chip[data-status='REVIEWED'],
+.status-chip[data-status='NONE'] {
+  background: var(--cl-accent-soft);
+  color: var(--cl-accent-ink);
+}
+
+.status-chip[data-status='SANCTIONED'] {
+  background: var(--cl-primary);
+  color: #fff;
 }
 
 /* ---------- Centred card (login + add profile) ---------- */

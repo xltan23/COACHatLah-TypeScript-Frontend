@@ -1,0 +1,33 @@
+.escalation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.escalation-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.escalation-trigger {
+  font-size: 14px;
+  color: var(--cl-ink);
+}
+
+.chevron {
+  color: var(--cl-muted);
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .escalation-card {
+    flex-wrap: wrap;
+  }
+
+  .chevron {
+    display: none;
+  }
+}

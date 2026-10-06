@@ -1,0 +1,85 @@
+<section class="page">
+    <a class="back-link" routerLink="/escalation">
+        <mat-icon>arrow_back</mat-icon>
+        Back to escalations
+    </a>
+    <h1 class="page-title">Review escalation #{{ id }}</h1>
+    <p class="page-subtitle">Check the record, then add your comments</p>
+
+    <div class="review-layout">
+        <div class="panel record-panel">
+            @if (record(); as r) {
+                <div class="record-head">
+                    <div class="avatar"><mat-icon>person</mat-icon></div>
+                    <div class="record-title">
+                        <div class="profile-name">{{ r.studentId }}</div>
+                        <div class="muted">{{ r.classCohort }}</div>
+                    </div>
+                    <span class="status-chip" [attr.data-status]="r.reviewStatus">{{ r.reviewStatus.replaceAll('_', ' ') | titlecase }}</span>
+                </div>
+                <dl class="details">
+                    <dt>Trigger</dt>
+                    <dd>
+                        @switch (r.triggerType) {
+                            @case ('THRESHOLD_EXCEEDED') { Flag threshold reached ({{ r.triggerDetail }} flags) }
+                            @case ('ANOMALY_DETECTED') { Unusual activity spike at {{ r.triggerDetail.replaceAll(',', ', ') }} }
+                            @case ('MANUAL_REPORT') { Manual report }
+                            @default { {{ r.triggerType }} }
+                        }
+                    </dd>
+                    <dt>Escalated</dt>
+                    <dd>{{ r.createdAt | date:'d MMM y, h:mm a' }}</dd>
+                    @if (r.reviewedAt) {
+                        <dt>Last reviewed</dt>
+                        <dd>{{ r.reviewedAt | date:'d MMM y, h:mm a' }} by {{ r.reviewedBy }}</dd>
+                        <dt>Comments</dt>
+                        <dd class="comments">{{ r.reviewComments }}</dd>
+                    }
+                </dl>
+            } @else {
+                <div class="empty-state">
+                    <mat-icon>search_off</mat-icon>
+                    <p>Record #{{ id }} not found</p>
+                </div>
+            }
+        </div>
+
+        <form class="panel review-form" [formGroup]="reviewForm" (ngSubmit)="processReview()">
+            <h2 class="form-title">Your review</h2>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Escalation ID</mat-label>
+                <input matInput type="number" formControlName="escalationId" readonly>
+                <mat-icon matSuffix>lock</mat-icon>
+                <mat-hint>Fixed to this record</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Reviewer</mat-label>
+                <input matInput type="text" formControlName="reviewedBy" readonly>
+                <mat-icon matSuffix>lock</mat-icon>
+                <mat-hint>Signed in as you</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Comments</mat-label>
+                <textarea matInput formControlName="reviewComments" rows="5"
+                          placeholder="Outcome, follow-up actions, whether this was a false positive"></textarea>
+            </mat-form-field>
+
+            @if (submitMessage()) {
+                <p class="submit-message" [class.error]="submitFailed()" role="status">
+                    <mat-icon>{{ submitFailed() ? 'error_outline' : 'check_circle' }}</mat-icon>
+                    {{ submitMessage() }}
+                </p>
+            }
+
+            <div class="actions">
+                <button class="pill-btn" matButton="filled" type="submit" [disabled]="reviewForm.invalid">
+                    <mat-icon>send</mat-icon>
+                    Submit review
+                </button>
+            </div>
+        </form>
+    </div>
+</section>

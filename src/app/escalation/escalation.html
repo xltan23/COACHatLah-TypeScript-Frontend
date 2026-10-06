@@ -1,0 +1,39 @@
+<section class="page">
+    <h1 class="page-title">Escalations</h1>
+    <p class="page-subtitle">Students flagged for review. Tap a record to review it.</p>
+
+    @if (escalation().length > 0) {
+        <div class="escalation-list">
+            @for (e of escalation(); track e.id) {
+                <a class="profile-card escalation-card" [routerLink]="['/review', e.id]">
+                    <div class="avatar">
+                        @switch (e.triggerType) {
+                            @case ('THRESHOLD_EXCEEDED') { <mat-icon>flag</mat-icon> }
+                            @case ('ANOMALY_DETECTED') { <mat-icon>trending_up</mat-icon> }
+                            @default { <mat-icon>report</mat-icon> }
+                        }
+                    </div>
+                    <div class="escalation-main">
+                        <div class="profile-name">{{ e.studentId }} <span class="muted">· {{ e.classCohort }}</span></div>
+                        <div class="escalation-trigger">
+                            @switch (e.triggerType) {
+                                @case ('THRESHOLD_EXCEEDED') { Flag threshold reached ({{ e.triggerDetail }} flags) }
+                                @case ('ANOMALY_DETECTED') { Unusual activity spike at {{ e.triggerDetail.replaceAll(',', ', ') }} }
+                                @case ('MANUAL_REPORT') { Manual report }
+                                @default { {{ e.triggerType }} }
+                            }
+                        </div>
+                        <div class="muted">#{{ e.id }} · {{ e.createdAt | date:'d MMM y, h:mm a' }}</div>
+                    </div>
+                    <span class="status-chip" [attr.data-status]="e.reviewStatus">{{ e.reviewStatus.replaceAll('_', ' ') | titlecase }}</span>
+                    <mat-icon class="chevron">chevron_right</mat-icon>
+                </a>
+            }
+        </div>
+    } @else {
+        <div class="empty-state">
+            <mat-icon>verified_user</mat-icon>
+            <p>No escalations to review</p>
+        </div>
+    }
+</section>

@@ -34,6 +34,27 @@ export interface MessageResponse {
     llmRephrase: string | null;
 }
 
+// Mirrors backend EscalationDto: Long -> number, Instant -> ISO-8601 string
+export interface EscalationDto {
+    id: number;
+    studentId: string;
+    classCohort: string;
+    triggerType: string;    // THRESHOLD_EXCEEDED | ANOMALY_DETECTED | MANUAL_REPORT
+    triggerDetail: string;  // flag count, or comma-separated spike hours
+    reviewStatus: string;   // NONE | TO_BE_REVIEWED | UNDER_REVIEW | REVIEWED | SANCTIONED
+    createdAt: string;
+    // null until the escalation is reviewed
+    reviewedBy: string | null;
+    reviewComments: string | null;
+    reviewedAt: string | null;
+}
+
+// Mirrors backend ReviewDto
+export interface ReviewDto {
+    escalationId: number;
+    reviewedBy: string;
+    reviewComments: string;
+}
 
 
 export enum Role {
