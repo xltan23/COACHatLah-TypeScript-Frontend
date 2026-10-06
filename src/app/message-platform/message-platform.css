@@ -19,10 +19,31 @@
   font-size: 15px;
 }
 
+.chat-heading {
+  min-width: 0;
+}
+
 .chat-title {
   margin: 0;
   font-size: 18px;
   font-weight: 500;
+}
+
+.nudge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--cl-primary);
+}
+
+.nudge mat-icon {
+  font-size: 13px;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
 }
 
 .messages {

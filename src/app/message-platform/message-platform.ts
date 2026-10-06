@@ -10,6 +10,17 @@ import { MessageDto, MessageResponse, ProfileDto } from '../models';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProfileService } from '../services/profile.service';
 
+// Gentle reminders shown under the recipient's name; one is picked per conversation
+const KINDNESS_NUDGES = [
+  "Treat others the way you like to be treated :)",
+  "Be kind and spread positive energy :)",
+  "Kindness is free, so share it everywhere :)",
+  "Words stay online, so choose them with care :)",
+  "Pause, think, then send :)",
+  "Disagree nicely, it's okay to think differently :)",
+  "Everyone's having their own day, so be gentle :)",
+];
+
 @Component({
   imports: [MaterialImports, CommonModule, FormsModule, ReactiveFormsModule],
   selector: 'app-message-platform',
@@ -24,6 +35,7 @@ export class MessagePlatform implements OnInit, OnDestroy {
   messages = signal<MessageDto[]>([]);
   messageForm!: FormGroup;
   messageResp = signal<MessageResponse | null>(null);
+  nudge = signal(this.randomNudge());
 
   private subs = new Subscription();
   private scroller = viewChild<ElementRef<HTMLElement>>('scroller');
@@ -51,6 +63,7 @@ export class MessagePlatform implements OnInit, OnDestroy {
 
     this.subs.add(this.activatedRoute.params.subscribe(params => {
       this.peerId = params['peerId'];
+      this.nudge.set(this.randomNudge());
       this.messageForm.patchValue({ senderId: this.me, recipientId: this.peerId });
       
       this.profileSvc.getSpecificProfile(this.peerId)
@@ -98,6 +111,10 @@ export class MessagePlatform implements OnInit, OnDestroy {
     const suggestion = this.messageResp()?.llmRephrase;
     if (!suggestion) return;
     this.messageForm.patchValue({ content: suggestion });
+  }
+
+  private randomNudge(): string {
+    return KINDNESS_NUDGES[Math.floor(Math.random() * KINDNESS_NUDGES.length)];
   }
 
   ngOnDestroy(): void {
