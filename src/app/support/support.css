@@ -1,0 +1,84 @@
+.support-section {
+  background: var(--cl-card);
+  border: 1px solid var(--cl-line);
+  border-radius: var(--cl-radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.section-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--cl-ink);
+}
+
+.section-quote {
+  margin: 2px 0 0;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Counsellors: calm blue */
+.counsellors .section-icon,
+.counsellors .avatar {
+  background: var(--cl-accent-soft);
+  color: var(--cl-accent-dark);
+}
+
+.counsellors .section-quote {
+  color: var(--cl-accent-dark);
+}
+
+/* Disciplinary committee: orchid */
+.committee .section-icon,
+.committee .avatar {
+  background: var(--cl-primary-soft);
+  color: var(--cl-primary-dark);
+}
+
+.committee .section-quote {
+  color: var(--cl-primary);
+}
+
+/* Staff names (with titles) are longer than classmates' names: wider cards, one line each */
+.support-section .profile-grid {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-body .profile-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-body .chip {
+  white-space: nowrap;
+}
+
+.chat-icon {
+  flex-shrink: 0;
+  color: var(--cl-primary);
+}

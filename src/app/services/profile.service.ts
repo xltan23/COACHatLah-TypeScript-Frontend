@@ -35,4 +35,10 @@ export class ProfileService {
         const url = `${this.baseUrl}/getCCA/${id}`;
         return this.http.get<ProfileDto[]>(url).pipe(take(1));
     }
+
+    // GET Support profiles
+    getSupportProfiles():Observable<ProfileDto[]> {
+        const url = `${this.baseUrl}/support`;
+        return this.http.get<ProfileDto[]>(url).pipe(take(1));
+    }
 }

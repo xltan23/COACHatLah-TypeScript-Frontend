@@ -39,6 +39,11 @@
                 <mat-icon>sports_soccer</mat-icon>
                 <span>My CCA</span>
             </a>
+            <a class="nav-item" routerLink="/support" routerLinkActive="active"
+               (click)="isPhone() && drawer.close()">
+                <mat-icon>volunteer_activism</mat-icon>
+                <span>Get support</span>
+            </a>
             @if (loginSvc.canReview()) {
                 <a class="nav-item" routerLink="/escalation" routerLinkActive="active"
                    (click)="isPhone() && drawer.close()">

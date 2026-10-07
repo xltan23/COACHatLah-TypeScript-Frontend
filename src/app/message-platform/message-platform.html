@@ -34,14 +34,14 @@
             Aiyo, that message wasn't sent
         </div>
         @if (messageResp()!.llmRephrase) {
-            <p class="rephrase-hint">Your message may not have the best tone/phrasing and may come across as harsh. Try this instead?</p>
+            <p class="rephrase-hint">It may not have the best tone/phrasing and may come across as harsh. Try this instead?</p>
             <p class="rephrase-text">"{{ messageResp()!.llmRephrase }}"</p>
             <button class="use-btn" matButton="filled" type="button" (click)="useRephrase()">
                 <mat-icon>auto_fix_high</mat-icon>
                 Use this
             </button>
         } @else {
-            <p class="rephrase-hint">Your message may not have the best tone/phrasing and may come across as harsh. Try saying it in a kinder way?</p>
+            <p class="rephrase-hint">It may not have the best tone/phrasing and may come across as harsh. Try saying it in a kinder way?</p>
         }
     </div>
 }

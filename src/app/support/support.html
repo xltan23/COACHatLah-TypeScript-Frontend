@@ -1,0 +1,52 @@
+<section class="page">
+    <h1 class="page-title">Get support</h1>
+    <p class="page-subtitle">Trusted adults you can reach out to anytime. Tap a card to chat.</p>
+
+    <div class="support-section counsellors">
+        <div class="section-head">
+            <div class="section-icon"><mat-icon>volunteer_activism</mat-icon></div>
+            <div>
+                <h2 class="section-title">Counsellors</h2>
+                <p class="section-quote">“You're not alone. We're here to listen and help.”</p>
+            </div>
+        </div>
+        <div class="profile-grid">
+            @for (p of profiles(); track p.id) {
+                @if (p.role === 'COUNSELLOR') {
+                    <a class="profile-card" [routerLink]="['/chat', p.id]">
+                        <div class="avatar">{{ initial(p.name) }}</div>
+                        <div class="card-body">
+                            <div class="profile-name" [title]="p.name">{{ p.name | titlecase }}</div>
+                            <span class="chip staff">Counsellor</span>
+                        </div>
+                        <mat-icon class="chat-icon">chat_bubble_outline</mat-icon>
+                    </a>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="support-section committee">
+        <div class="section-head">
+            <div class="section-icon"><mat-icon>verified_user</mat-icon></div>
+            <div>
+                <h2 class="section-title">Disciplinary committee</h2>
+                <p class="section-quote">“Everyone deserves to feel safe online. Seen or felt something hurtful? Tell us.”</p>
+            </div>
+        </div>
+        <div class="profile-grid">
+            @for (p of profiles(); track p.id) {
+                @if (p.role === 'DISCIPLINARY_COMMITTEE') {
+                    <a class="profile-card" [routerLink]="['/chat', p.id]">
+                        <div class="avatar">{{ initial(p.name) }}</div>
+                        <div class="card-body">
+                            <div class="profile-name" [title]="p.name">{{ p.name | titlecase }}</div>
+                            <span class="chip">Disciplinary committee</span>
+                        </div>
+                        <mat-icon class="chat-icon">chat_bubble_outline</mat-icon>
+                    </a>
+                }
+            }
+        </div>
+    </div>
+</section>

@@ -38,9 +38,18 @@ export class AddProfile implements OnInit {
     this.profileSvc.postProfile(profile)
       .then(result => {
         console.log(result)
+        this.openSnackBar()
       })
       .catch(err => {
         console.error("Error inserting profile", err)
       })
+  }
+
+  openSnackBar() {
+    this.snackBar.open('Profile created successfully!', 'Undo', {
+      duration: 3000, // Closes after 3 seconds
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
 }
