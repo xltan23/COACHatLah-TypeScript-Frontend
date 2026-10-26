@@ -36,6 +36,10 @@
                         <dd class="comments">{{ r.reviewComments }}</dd>
                     }
                 </dl>
+                <a class="pill-btn flags-link" matButton="outlined" [routerLink]="['/flags', r.studentId]">
+                    <mat-icon>flag</mat-icon>
+                    View flag history
+                </a>
             } @else {
                 <div class="empty-state">
                     <mat-icon>search_off</mat-icon>

@@ -1,0 +1,79 @@
+<section class="page">
+    <button class="back-link" type="button" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to review
+    </button>
+    <h1 class="page-title">Flag history · {{ studentId }}</h1>
+    <p class="page-subtitle">
+        {{ flags().length }} flagged {{ flags().length === 1 ? 'message' : 'messages' }}, newest first
+    </p>
+
+    @if (flags().length > 0) {
+        <div class="summary">
+            @for (c of categoryCounts(); track c.key) {
+                <div class="summary-item" [attr.data-cat]="c.key">
+                    <span class="summary-count">{{ c.count }}</span>
+                    <span class="summary-label">{{ c.label }}</span>
+                </div>
+            }
+        </div>
+
+        <div class="threshold-legend">
+            <span class="legend-mark"></span>
+            <span>Flagged when a score is above its threshold:</span>
+            @for (t of thresholdList; track t.label) {
+                <span class="threshold-chip">{{ t.label }} {{ t.threshold * 100 | number:'1.0-0' }}%</span>
+            }
+        </div>
+
+        <div class="flag-list">
+            @for (f of sortedFlags(); track f.id) {
+                <article class="panel flag-card">
+                    <div class="flag-head">
+                        <span class="muted">#{{ f.id }} · {{ f.flaggedAt | date:'d MMM y, h:mm a' }}</span>
+                        <span class="muted">To {{ f.recipientId }}</span>
+                    </div>
+
+                    <p class="original">“{{ f.originalText }}”</p>
+
+                    <div class="cat-chips">
+                        @for (c of categories(f); track c) {
+                            <span class="cat-chip" [attr.data-cat]="c">{{ categoryLabel(c) }}</span>
+                        }
+                    </div>
+
+                    @if (scores(f).length > 0) {
+                        <div class="scores">
+                            @for (s of scores(f); track s.key) {
+                                <div class="score-row" [class.hit]="s.value > s.threshold">
+                                    <span class="score-label">{{ s.label }}</span>
+                                    <div class="score-track" [attr.aria-label]="s.label + ' ' + (s.value * 100 | number:'1.1-1') + '%, threshold ' + (s.threshold * 100 | number:'1.0-0') + '%'">
+                                        <div class="score-fill" [style.width.%]="s.value * 100"></div>
+                                        <div class="threshold-mark" [style.left.%]="s.threshold * 100"></div>
+                                    </div>
+                                    <span class="score-value">{{ s.value * 100 | number:'1.1-1' }}%</span>
+                                    <span class="score-threshold">
+                                        {{ s.value > s.threshold ? 'Above' : 'Below' }} {{ s.threshold * 100 | number:'1.0-0' }}%
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                        @if (flaggedUnderEarlierThreshold(f)) {
+                            <p class="legacy-note">
+                                <mat-icon>info</mat-icon>
+                                Some categories were flagged under an earlier threshold setting.
+                            </p>
+                        }
+                    } @else {
+                        <p class="muted">No scores stored for this record</p>
+                    }
+                </article>
+            }
+        </div>
+    } @else if (loaded()) {
+        <div class="empty-state">
+            <mat-icon>verified_user</mat-icon>
+            <p>No flagged messages for {{ studentId }}</p>
+        </div>
+    }
+</section>

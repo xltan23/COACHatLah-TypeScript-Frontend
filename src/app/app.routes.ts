@@ -10,6 +10,7 @@ import { Login } from './login/login';
 import { Escalation } from './escalation/escalation';
 import { Review } from './review/review';
 import { Support } from './support/support';
+import { Flags } from './flags/flags';
 
 export const routes: Routes = [
     {path:'', redirectTo:'login', pathMatch:'full'},
@@ -20,5 +21,6 @@ export const routes: Routes = [
     {path:'chat/:peerId', component:MessagePlatform, canActivate:[authGuard]},
     {path:'escalation', component:Escalation, canActivate:[authGuard, reviewerGuard]},
     {path:'review/:id', component:Review, canActivate:[authGuard, reviewerGuard]},
+    {path:'flags/:id', component:Flags, canActivate:[authGuard, reviewerGuard]},
     {path:'support', component:Support, canActivate:[authGuard]}
 ];

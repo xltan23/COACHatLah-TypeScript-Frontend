@@ -34,6 +34,17 @@ export interface MessageResponse {
     llmRephrase: string | null;
 }
 
+// Mirrors backend FlagRecordDto: Long -> number, Instant -> ISO-8601 string
+export interface FlagDto {
+    id: number;
+    senderId: string;
+    recipientId: string;
+    originalText: string;
+    flagCategories: string;           // comma-separated, e.g. "TOXIC,CYBERBULLYING"
+    confidenceScores: string | null;  // JSON, e.g. {"toxic":0.91,...}; null for older records
+    flaggedAt: string;
+}
+
 // Mirrors backend EscalationDto: Long -> number, Instant -> ISO-8601 string
 export interface EscalationDto {
     id: number;
