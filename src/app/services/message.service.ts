@@ -1,3 +1,4 @@
+import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { firstValueFrom, map, Observable, take } from "rxjs";
@@ -8,7 +9,7 @@ import { MessageDto, MessageRequest, MessageResponse } from "../models";
 })
 export class MessageService {
 
-    private baseUrl = 'http://localhost:8080/api/message';
+    private baseUrl = `${environment.apiUrl}/api/message`;
 
     constructor(private http:HttpClient) {}
 

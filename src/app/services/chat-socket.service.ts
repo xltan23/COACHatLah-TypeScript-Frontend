@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable, signal } from '@angular/core';
 import { Client, IMessage } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
@@ -9,7 +10,7 @@ import { MessageResponse } from '../models';
 @Injectable({ providedIn: 'root' })
 export class ChatSocketService {
 
-  private wsUrl = 'http://localhost:8080/ws';
+  private wsUrl = `${environment.apiUrl}/ws`;
   private client?: Client;
 
   readonly connected = signal(false);

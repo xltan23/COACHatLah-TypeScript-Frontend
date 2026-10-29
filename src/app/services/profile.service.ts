@@ -1,3 +1,4 @@
+import { environment } from "../../environments/environment";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { PostResponse, ProfileDto } from "../models";
@@ -8,7 +9,7 @@ import { firstValueFrom, map, Observable, take } from "rxjs";
 })
 export class ProfileService {
 
-    private baseUrl = 'http://localhost:8080/api/profile';
+    private baseUrl = `${environment.apiUrl}/api/profile`;
 
     constructor(private http:HttpClient) {}
 
