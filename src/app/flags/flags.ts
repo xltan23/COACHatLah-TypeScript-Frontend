@@ -86,6 +86,8 @@ export class Flags implements OnInit {
       const parsed = JSON.parse(f.confidenceScores) as Record<string, number>;
       const order = Object.keys(CATEGORY_LABELS);
       return Object.entries(parsed)
+        // Category scores only; skips non-score keys like "source":"hard_filter"
+        .filter(([key]) => key.toUpperCase() in CATEGORY_LABELS)
         .map(([key, value]) => ({
           key: key.toUpperCase(),
           label: this.categoryLabel(key.toUpperCase()),
